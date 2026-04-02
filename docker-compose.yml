@@ -4,10 +4,10 @@ services:
     image: postgres:16
     container_name: capstone-med-db
     ports:
-      - "5433:5432"
+      - "{DB_PORT}:5432"
     environment:
-      POSTGRES_USER: tap
+      POSTGRES_USER: ${DB_USER}
       POSTGRES_PASSWORD: ${DB_PASSWORD}
-      POSTGRES_DB: med_management_db
+      POSTGRES_DB: S{DB_NAME}
     volumes:
       - ./docker-config/data:/var/lib/postgresql/data
