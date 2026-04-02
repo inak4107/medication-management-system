@@ -1,0 +1,14 @@
+# 1. 도커 데이터 폴더
+docker-config/data/
+data/
+
+# 2. 비밀번호 파일 
+.env
+
+# 3. 맥 시스템 쓰레기 파일
+.DS_Store
+
+# 4. 기타 개발 쓰레기들
+node_modules/
+*.logtarget/
+*.class
