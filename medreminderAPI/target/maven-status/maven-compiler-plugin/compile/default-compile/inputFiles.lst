@@ -1,0 +1,9 @@
+/Users/salvbsl/Downloads/medreminder-prod/src/main/java/com/medreminder/app/repository/MedicationRepository.java
+/Users/salvbsl/Downloads/medreminder-prod/src/main/java/com/medreminder/app/repository/UserRepository.java
+/Users/salvbsl/Downloads/medreminder-prod/src/main/java/com/medreminder/app/controller/MedicationController.java
+/Users/salvbsl/Downloads/medreminder-prod/src/main/java/com/medreminder/app/controller/AuthController.java
+/Users/salvbsl/Downloads/medreminder-prod/src/main/java/com/medreminder/app/AppApplication.java
+/Users/salvbsl/Downloads/medreminder-prod/src/main/java/com/medreminder/app/security/JwtService.java
+/Users/salvbsl/Downloads/medreminder-prod/src/main/java/com/medreminder/app/config/SecurityConfig.java
+/Users/salvbsl/Downloads/medreminder-prod/src/main/java/com/medreminder/app/model/Medication.java
+/Users/salvbsl/Downloads/medreminder-prod/src/main/java/com/medreminder/app/model/User.java
