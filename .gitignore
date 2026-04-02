@@ -10,4 +10,5 @@ data/
 
 # 4. 기타 개발 쓰레기들
 node_modules/
-*.log
+*.logtarget/
+*.class
