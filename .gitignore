@@ -1,14 +1,26 @@
-# 1. 도커 데이터 폴더
-docker-config/data/
-data/
-
-# 2. 비밀번호 파일 
+# [1] 프로젝트 공통 & 보안
 .env
-
-# 3. 맥 시스템 쓰레기 파일
 .DS_Store
-
-# 4. 기타 개발 쓰레기들
+data/
+docker-config/data/
 node_modules/
-*.logtarget/
+
+# [2] Java / Gradle (서버용)
+.gradle/
+build/
+bin/
+out/
 *.class
+*.logtarget
+!gradle/wrapper/gradle-wrapper.jar
+
+# [3] IDE (개발 도구)
+.idea/
+*.iws
+*.iml
+*.ipr
+.vscode/
+.settings/
+.project
+.classpath
+.factorypath
