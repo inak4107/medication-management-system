@@ -1,7 +1,6 @@
-package pill_tap_server.repository;
+package pilltapserver.domain.hardware;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import pill_tap_server.domain.Hardware;
 
 public interface HardwareRepository extends JpaRepository<Hardware, Long>{
 }

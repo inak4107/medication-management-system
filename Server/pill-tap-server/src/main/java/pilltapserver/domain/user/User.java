@@ -1,4 +1,4 @@
-package pill_tap_server.domain;
+package pilltapserver.domain.user;
 
 import jakarta.persistence.*;
 import lombok.Getter;

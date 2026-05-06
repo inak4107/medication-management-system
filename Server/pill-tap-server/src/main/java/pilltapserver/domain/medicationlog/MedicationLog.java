@@ -1,10 +1,13 @@
-package pill_tap_server.domain;
+package pilltapserver.domain.medicationlog;
 
 import java.math.BigDecimal;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import pilltapserver.domain.medicationschedule.MedicationSchedule;
+import pilltapserver.domain.tagmapping.TagMapping;
+import pilltapserver.domain.user.User;
 
 import java.time.LocalDateTime;
 import java.time.LocalTime;

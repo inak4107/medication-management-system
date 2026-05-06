@@ -1,9 +1,11 @@
-package pill_tap_server.domain;
+package pilltapserver.domain.hardware;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import pilltapserver.domain.user.User;
+
 import java.time.LocalDateTime;
 
 @Entity

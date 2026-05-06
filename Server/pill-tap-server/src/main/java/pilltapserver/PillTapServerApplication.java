@@ -1,4 +1,4 @@
-package pill_tap_server;
+package pilltapserver;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
