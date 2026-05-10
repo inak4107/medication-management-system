@@ -93,3 +93,5 @@ CREATE TABLE medication_logs(
 	,CONSTRAINT fk_log_user_id FOREIGN KEY (user_id) REFERENCES users (user_id) ON DELETE CASCADE 
 	,CONSTRAINT ck_status_range CHECK (status IN(0,1,2))
 );
+-- 모든 데이터를 삭제하고, 다음 가입자 번호(ID)를 다시 1번부터 시작하게 함
+-- users 테이블과 이를 참조하는 모든 테이블의 관련 데이터를 한 방에 삭제

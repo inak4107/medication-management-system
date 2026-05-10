@@ -1,6 +1,7 @@
 package pilltapserver.domain.user;
 
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.AccessLevel;
@@ -43,4 +44,14 @@ public class User {
 
 	@Column(name = "deleted_at") // NULL 허용 (삭제된 경우에만 기록)
     private LocalDateTime deletedAt;
+
+    @Builder
+    public User(String loginId, String password, String name, String email, LocalDate birthDate, Integer accountType) {
+        this.loginId = loginId;
+        this.password = password;
+        this.name = name;
+        this.email = email;
+        this.birthDate = birthDate;
+        this.accountType = accountType;
+    }
 }
