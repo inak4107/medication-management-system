@@ -15,6 +15,7 @@ public enum ErrorCode {
     ERROR_NAME_EMPTY(400,"이름을 입력하세요."),
     ERROR_EMAIL_EMPTY(400,"이메일을 입력하세요."),
     ERROR_DUPLICATE_EMAIL(400,"이미 가입된 이메일입니다."),
+    ERROR_EMAIL_FORMAT(400,"이메일 형식이 올바르지 않습니다."),
     ERROR_BIRTH_DATE_EMPTY(400,"생년월일을 입력하세요."),
     ERROR_ACCOUNT_TYPE_EMPTY(400,"유저 유형을 입력하세요."),
     //로그인 및 유저 관련 에러

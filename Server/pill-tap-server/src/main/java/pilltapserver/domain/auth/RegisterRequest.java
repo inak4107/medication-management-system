@@ -47,6 +47,10 @@ public record RegisterRequest(
         if (email==null||email.isBlank()){
             throw new CustomException(ErrorCode.ERROR_EMAIL_EMPTY);
         }
+        if (!email.matches(
+                " \"^[a-zA-Z0-9_+&*-]+(?:\\\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\\\.)+[a-zA-Z]{2,}$\";")){
+            throw new CustomException(ErrorCode.ERROR_EMAIL_FORMAT);
+        }
         if (birthDate==null){
             throw new CustomException(ErrorCode.ERROR_BIRTH_DATE_EMPTY);
         }
