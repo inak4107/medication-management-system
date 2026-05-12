@@ -38,7 +38,7 @@ public class AuthController {
     @GetMapping("/check-email")
     public ResponseEntity<ApiResponse<Void>> checkEmail(@RequestParam String email) {
         if (!email.matches(
-                " \"^[a-zA-Z0-9_+&*-]+(?:\\\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\\\.)+[a-zA-Z]{2,}$\";")){
+                "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$")) {
             throw new CustomException(ErrorCode.ERROR_EMAIL_FORMAT);
         }
         authService.checkDuplicateEmail(email);
