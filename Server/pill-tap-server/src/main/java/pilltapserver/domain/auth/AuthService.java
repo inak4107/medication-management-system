@@ -9,6 +9,7 @@ import pilltapserver.domain.user.UserRepository;
 import pilltapserver.domain.user.UserService;
 import pilltapserver.global.exception.CustomException;
 import pilltapserver.global.exception.ErrorCode;
+import pilltapserver.global.security.JwtProvider;
 
 @Service
 @RequiredArgsConstructor
@@ -16,6 +17,7 @@ public class AuthService {
     private final UserRepository userRepository;
     private final UserService userService;
     private final PasswordEncoder passwordEncoder;
+    private final JwtProvider jwtProvider;
 
     // 실시간 개별 중복 체크
     @Transactional(readOnly = true)
@@ -49,5 +51,19 @@ public class AuthService {
                 .build();
         userService.create(user);
     }
-
+    /**
+     * 로그인 로직
+     */
+    @Transactional(readOnly = true)
+    public String login(LoginRequest request){
+        User user = userRepository.findByLoginId(request.loginId())
+                .orElseThrow(()->new CustomException(ErrorCode.ERROR_USER_NOT_FOUND));
+        if(user.getDeletedAt() != null){
+            throw new CustomException(ErrorCode.ERROR_USER_DELETED);
+        }
+        if(!passwordEncoder.matches(request.password(), user.getPassword())){
+            throw new CustomException(ErrorCode.ERROR_INVALID_PASSWORD);
+        }
+        return jwtProvider.createToken(user.getLoginId());
+    }
 }

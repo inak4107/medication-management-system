@@ -99,5 +99,6 @@ SERVER_PORT=8080
 
 ### 4. API Docs (Swagger)
 서버 실행 후, 아래 주소로 접속하면 API 명세서를 확인할 수 있습니다.
+Local 환경 전용 Swagger입니다.
 
 * Swagger UI: `http://localhost:8080/swagger-ui/index.html`

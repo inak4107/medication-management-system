@@ -9,9 +9,14 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 // 비밀번호 암호화 라이브러리
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+// JWT 및 의존성 주입 라이브러리
+import lombok.RequiredArgsConstructor;
+import pilltapserver.global.security.JwtAuthenticationFilter;
+import pilltapserver.global.security.JwtProvider;
 // 프론트엔드 연결 에러 방지
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
@@ -26,7 +31,9 @@ import java.util.List;
  */
 @Configuration
 @EnableWebSecurity
+@RequiredArgsConstructor
 public class SecurityConfig{
+    private final JwtProvider jwtProvider;
     /**
      * 비밀번호 단방향 해시 암호화 인코더 빈 등록
      * BCrypt 알고리즘을 사용하여 평문 비밀번호를 안전하게 암호화하여 DB에 저장
@@ -49,16 +56,25 @@ public class SecurityConfig{
                 .formLogin(AbstractHttpConfigurer::disable)
                 .httpBasic(AbstractHttpConfigurer::disable)
                 // 세션 관리 정책
-                // JWS사용 예정으로 STATELESS(서버에 저장하지 않음)를 사용
+                // JWS사용으로 STATELESS정책 사용
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                    .addFilterBefore(new JwtAuthenticationFilter(jwtProvider), UsernamePasswordAuthenticationFilter.class)
                 //엔드포인트별 접근 권한 설정
                 .authorizeHttpRequests(auth -> auth
-                        // 회원가입/로그인 API 및 Swagger API 문서 접근은 인증 없이 모두 허용
-                        .requestMatchers("/api/auth/**", "/swagger-ui/**", "/v3/api-docs/**").permitAll()
+                        // swagger 및 API 문서 접근 허용
+                        .requestMatchers(
+                                "/v3/api-docs/**",
+                                "/v3/api-docs",
+                                "/swagger-ui/**",
+                                "/swagger-ui.html",
+                                "/swagger-resources/**",
+                                "/webjars/**"
+                        ).permitAll()
+                        // 인증 관련 API 허용
+                        .requestMatchers("/api/auth/**", "/api/v1/auth/**").permitAll()
                         // 그 외의 요청은 인증 필요
                         .anyRequest().authenticated()
                 );
-
         return http.build();
     }
 

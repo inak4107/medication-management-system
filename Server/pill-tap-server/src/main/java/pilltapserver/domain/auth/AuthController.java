@@ -38,10 +38,17 @@ public class AuthController {
     @GetMapping("/check-email")
     public ResponseEntity<ApiResponse<Void>> checkEmail(@RequestParam String email) {
         if (!email.matches(
-                "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$")) {
+                "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,}$")) {
             throw new CustomException(ErrorCode.ERROR_EMAIL_FORMAT);
         }
         authService.checkDuplicateEmail(email);
         return ResponseEntity.ok(ApiResponse.success("사용 가능한 이메일입니다."));
     }
+    @Operation(summary = "로그인", description = "로그인 처리 및 JWT 토큰 발급")
+    @PostMapping("/login")
+    public ResponseEntity<ApiResponse<String>> login(@RequestBody LoginRequest request) {
+        String token = authService.login(request);
+        return ResponseEntity.ok(ApiResponse.success(token));
+    }
 }
+

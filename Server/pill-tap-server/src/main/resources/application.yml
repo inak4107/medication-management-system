@@ -16,3 +16,16 @@ spring:
 
 server:
   port: ${SERVER_PORT}
+  forward-headers-strategy: framework
+
+jwt:
+  secret: ${JWT_SECRET}
+
+springdoc:
+  swagger-ui:
+    url: /v3/api-docs
+    path: /swagger-ui/index.html
+    disable-swagger-default-url: true
+  api-docs:
+    path: /v3/api-docs
+  packages-to-scan: pilltapserver

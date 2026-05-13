@@ -19,8 +19,9 @@ public enum ErrorCode {
     ERROR_BIRTH_DATE_EMPTY(400,"생년월일을 입력하세요."),
     ERROR_ACCOUNT_TYPE_EMPTY(400,"유저 유형을 입력하세요."),
     //로그인 및 유저 관련 에러
-    USER_NOT_FOUND(404, "가입되지 않은 아이디입니다."),
-    INVALID_PASSWORD(400, "비밀번호가 일치하지 않습니다."),
+    ERROR_USER_NOT_FOUND(401, "가입되지 않은 아이디입니다."),
+    ERROR_USER_DELETED(401,"가입되지 않은 아이디입니다."),
+    ERROR_INVALID_PASSWORD(401, "비밀번호가 일치하지 않습니다."),
     //서버 에러
     INTERNAL_SERVER_ERROR(500, "서버 내 오류가 발생했습니다.");
 
