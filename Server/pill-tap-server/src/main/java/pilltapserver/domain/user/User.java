@@ -45,10 +45,33 @@ public class User {
 	@Column(name = "deleted_at") // NULL 허용 (삭제된 경우에만 기록)
     private LocalDateTime deletedAt;
 
+    /**
+     * User 엔티티 생성자
+     * @param loginId 사용자 로그인 아이디
+     * @param password 암호화된 비밀번호
+     * @param name 사용자 성명
+     * @param email 사용자 이메일
+     * @param birthDate 사용자 생년월일
+     * @param accountType 계정 타입 (0: 환자, 1: 보호자 등)
+     */
     @Builder
     public User(String loginId, String password, String name, String email, LocalDate birthDate, Integer accountType) {
         this.loginId = loginId;
         this.password = password;
+        this.name = name;
+        this.email = email;
+        this.birthDate = birthDate;
+        this.accountType = accountType;
+    }
+
+    /**
+     * 유저 프로필 수정
+     * @param name 새로운 사용자 이름
+     * @param email 새로운 사용자 이메일
+     * @param birthDate 새로운 생년월일
+     * @param accountType 새로운 계정 타입
+     */
+    public void updateProfile(String name, String email, LocalDate birthDate, Integer accountType) {
         this.name = name;
         this.email = email;
         this.birthDate = birthDate;

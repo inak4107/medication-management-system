@@ -22,6 +22,12 @@ public enum ErrorCode {
     ERROR_USER_NOT_FOUND(401, "가입되지 않은 아이디입니다."),
     ERROR_USER_DELETED(401,"가입되지 않은 아이디입니다."),
     ERROR_INVALID_PASSWORD(401, "비밀번호가 일치하지 않습니다."),
+    ERROR_NAME_TOO_LONG(400,"이름은 최대 20자까지 가능합니다."),
+    //하드웨어 관련 에러
+    ERROR_DEVICE_CODE_EMPTY(400,"기기 식별 코드가 누락되었습니다."),
+    ERROR_DEVICE_ALREADY_REGISTERED(409,"이미 등록된 기기입니다."),
+    ERROR_UNAUTHORIZED_ACCESS(403,"해당 기기에 대한 접근 권한이 없습니다."),
+    ERROR_DEVICE_NOT_FOUND(404,"존재하지 않거나 삭제된 기기 정보입니다."),
     //서버 에러
     INTERNAL_SERVER_ERROR(500, "서버 내 오류가 발생했습니다.");
 

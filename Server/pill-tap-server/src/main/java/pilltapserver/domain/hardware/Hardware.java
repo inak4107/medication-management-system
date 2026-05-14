@@ -1,11 +1,8 @@
 package pilltapserver.domain.hardware;
 
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import pilltapserver.domain.user.User;
-
 import java.time.LocalDateTime;
 
 @Entity
@@ -25,6 +22,9 @@ public class Hardware {
     @Column(name = "device_code", nullable = false, unique = true, length = 50)
     private String deviceCode;
 
+    @Column(name = "device_name", nullable = false, length = 50)
+    private String deviceName;  //유저가 설정하는 별명입니다.
+
     @Column(name = "registered_at", nullable = false, updatable = false)
     private LocalDateTime registeredAt = LocalDateTime.now();
 
@@ -34,4 +34,43 @@ public class Hardware {
     @Column(name = "deleted_at")
     private LocalDateTime deletedAt;    // null 허용(삭제 시 기록)
 
+    /**
+     * Hardware 엔터티 생성자
+     * @param user 연결할 유저 객체
+     * @param deviceCode NFC 고유 코드
+     * @param deviceName 사용자가 설정한 기기 별명
+     */
+    @Builder
+    public Hardware(User user, String deviceCode, String deviceName) {
+        this.user = user;
+        this.deviceCode = deviceCode;
+        this.deviceName = deviceName;
+    }
+    /**
+     * 기기 별명 수정
+     * @param newName 사용자가 입력한 새로운 기기 이름
+     */
+    public void updateDeviceName(String newName) {
+        this.deviceName = newName;
+        this.updatedAt = LocalDateTime.now();
+    }
+    /**
+     * 기기 삭제
+     */
+    public void deleteDevice() {
+        this.deletedAt = LocalDateTime.now();
+        this.updatedAt = LocalDateTime.now();
+    }
+
+    /**
+     * 기기 재등록
+     * @param newUser 새로운 유저의 ID
+     * @param newName 새로운 유저가 정한 deviceName
+     */
+    public void reactivate(User newUser, String newName) {
+        this.user = newUser;
+        this.deviceName = newName;
+        this.deletedAt = null;
+        this.updatedAt = LocalDateTime.now();
+    }
 }
