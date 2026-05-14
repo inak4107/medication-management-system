@@ -52,4 +52,15 @@ public class HardwareController {
         hardwareService.updateDevice(loginId, dto);
         return ResponseEntity.ok(ApiResponse.success("기기 정보가 수정되었습니다."));
     }
+    /**
+     * 하드웨어 센싱 데이터 수신 (NFC, 무게)
+     * @param data 하드웨어에서 전송한 센싱 값
+     * @return 200 OK
+     */
+    @PostMapping("/data")
+    public ResponseEntity<Void> receiveSensingData(
+            @RequestBody HardwareDataRequest data) {
+        hardwareService.processSensingData(data);
+        return ResponseEntity.ok().build();
+    }
 }
