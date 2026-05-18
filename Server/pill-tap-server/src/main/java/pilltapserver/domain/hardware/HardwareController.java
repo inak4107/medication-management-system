@@ -53,13 +53,26 @@ public class HardwareController {
         return ResponseEntity.ok(ApiResponse.success("기기 정보가 수정되었습니다."));
     }
     /**
+     * 기기 삭제(연결 해제)
+     * @param loginId 현재 삭제를 요청한 아이디
+     * @param deviceCode 삭제할 기기의 식별 코드
+     * @return 기기 삭제 완료 메시지를 포함한 표준 응답 객체
+     */
+    @DeleteMapping("/{deviceCode}")
+    public ResponseEntity<ApiResponse<Void>> deleteDevice(
+            @AuthenticationPrincipal String loginId,
+            @PathVariable String deviceCode) {
+        hardwareService.deleteDevice(loginId, deviceCode);
+        return ResponseEntity.ok(ApiResponse.success("기기 연결이 해제되었습니다."));
+    }
+    /**
      * 하드웨어 센싱 데이터 수신 (NFC, 무게)
      * @param data 하드웨어에서 전송한 센싱 값
      * @return 200 OK
      */
     @PostMapping("/data")
     public ResponseEntity<Void> receiveSensingData(
-            @RequestBody HardwareDataRequest data) {
+            @RequestBody HardwareRequest data) {
         hardwareService.processSensingData(data);
         return ResponseEntity.ok().build();
     }

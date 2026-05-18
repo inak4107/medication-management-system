@@ -1,5 +1,6 @@
 package pilltapserver.domain.hardware;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import pilltapserver.global.exception.CustomException;
 import pilltapserver.global.exception.ErrorCode;
 
@@ -12,6 +13,7 @@ import pilltapserver.global.exception.ErrorCode;
 public record HardwareDto(
         String deviceCode,
         String deviceName,
+        @Schema(hidden = true)
         Integer hardwareId
 ) {
     public HardwareDto {

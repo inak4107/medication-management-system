@@ -2,6 +2,8 @@ package pilltapserver.domain.hardware;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.SQLDelete; // [추가된 부분] 소프트 딜리트 자동화를 위한 임포트
+import org.hibernate.annotations.SQLRestriction;
 import pilltapserver.domain.user.User;
 import java.time.LocalDateTime;
 
@@ -9,6 +11,8 @@ import java.time.LocalDateTime;
 @Table(name = "hardwares")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@SQLRestriction("deleted_at IS NULL")
+@SQLDelete(sql = "UPDATE hardwares SET deleted_at = NOW(), updated_at = NOW() WHERE hardware_id = ?") // [추가된 부분] delete() 호출 시 실행될 SQL 지정
 public class Hardware {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

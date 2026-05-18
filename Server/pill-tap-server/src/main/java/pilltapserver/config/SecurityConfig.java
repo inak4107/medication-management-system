@@ -72,6 +72,8 @@ public class SecurityConfig{
                         ).permitAll()
                         // 인증 관련 API 허용
                         .requestMatchers("/api/auth/**", "/api/v1/auth/**").permitAll()
+                        // 하드웨어 접속용
+                        .requestMatchers("/api/hardwares/data").permitAll()
                         // 그 외의 요청은 인증 필요
                         .anyRequest().authenticated()
                 );

@@ -1,36 +1,46 @@
 package pilltapserver.domain.tagmapping;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.AccessLevel;
-import pilltapserver.domain.user.User;
-
+import lombok.*;
 import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "tag_mappings")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
+@Builder
 public class TagMapping {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "mapping_id")
     private Integer mappingId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", nullable = false)
-    private User user;
+    @Column(name = "tag_uid", nullable = false, length = 50, unique = true)
+    private String tagUid;
 
-    @Column(name = "tag_uid", nullable = false, unique = true, length = 50)
-    private String tagUid; // NFC 스티커 고유 번호
+    @Column(name = "user_id", nullable = false)
+    private Integer userId;
 
-    @Column(name = "created_at", nullable = false, updatable = false)
-    private LocalDateTime createdAt = LocalDateTime.now();
+    @Column(name = "created_at", nullable = false, updatable = false, insertable = false)
+    private LocalDateTime createdAt;
 
     @Column(name = "last_tagged_at")
-    private LocalDateTime lastTaggedAt;
+    private LocalDateTime last_tagged_at;
 
     @Column(name = "deleted_at")
     private LocalDateTime deletedAt;
+
+    public void changeUser(Integer userId) {
+        this.userId = userId;
+    }
+
+    public void restore() {
+        this.deletedAt = null;
+    }
+
+    public void updateLastTaggedAt() {
+        this.last_tagged_at = LocalDateTime.now();
+    }
 }

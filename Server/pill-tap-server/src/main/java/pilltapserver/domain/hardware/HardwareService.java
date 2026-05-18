@@ -31,7 +31,7 @@ public class HardwareService {
         User user = userRepository.findByLoginId(loginId)
                 .orElseThrow(() -> new CustomException(ErrorCode.ERROR_USER_NOT_FOUND));
 
-        Optional<Hardware> existingHardware = hardwareRepository.findByDeviceCode(dto.deviceCode());
+        Optional<Hardware> existingHardware = hardwareRepository.findByDeviceCodeIncludingDeleted(dto.deviceCode());
 
         String finalName = (dto.deviceName() == null || dto.deviceName().trim().isEmpty())
                 ? "나의 약통" : dto.deviceName();
@@ -54,6 +54,7 @@ public class HardwareService {
             hardwareRepository.save(newHardware);
         }
     }
+
     /**
      * 유저가 등록한 기기 목록을 조회
      * @param loginId 조회하려는 유저의 로그인 아이디
@@ -69,6 +70,7 @@ public class HardwareService {
                 ))
                 .collect(Collectors.toList());
     }
+
     /**
      * 기기 정보(이름)를 수정
      * @param loginId 수정 요청을 보낸 유저의 아이디
@@ -83,26 +85,43 @@ public class HardwareService {
         if (!hw.getUser().getLoginId().equals(loginId)) {
             throw new CustomException(ErrorCode.ERROR_UNAUTHORIZED_ACCESS);
         }
-        // 삭제 여부 확인
-        if (hw.getDeletedAt() != null) {
-            throw new CustomException(ErrorCode.ERROR_DEVICE_NOT_FOUND);
-        }
+
         // 이름 업데이트
         String newName = (dto.deviceName() == null || dto.deviceName().trim().isEmpty())
                 ? "나의 약통" : dto.deviceName();
         hw.updateDeviceName(newName);
     }
+
+    /**
+     * 기기 삭제 처리 (소프트 딜리트)
+     * @param loginId 삭제 요청을 보낸 유저의 아이디
+     * @param deviceCode 삭제할 기기의 식별 코드
+     */
+    @Transactional
+    public void deleteDevice(String loginId, String deviceCode) {
+        // 기기 존재 확인
+        Hardware hw = hardwareRepository.findByDeviceCode(deviceCode)
+                .orElseThrow(() -> new CustomException(ErrorCode.ERROR_DEVICE_NOT_FOUND));
+
+        // 권한 검증
+        if (!hw.getUser().getLoginId().equals(loginId)) {
+            throw new CustomException(ErrorCode.ERROR_UNAUTHORIZED_ACCESS);
+        }
+
+        hardwareRepository.delete(hw);
+    }
+
     /**
      * 하드웨어에서 전송된 센싱 데이터를 처리
      * @param request 하드웨어 데이터 전송 규격
      */
     @Transactional
-    public void processSensingData(HardwareDataRequest request) {
+    public void processSensingData(HardwareRequest request) {
         // 등록된 하드웨어인지 확인
         Hardware hardware = hardwareRepository.findByDeviceCode(request.deviceCode())
                 .orElseThrow(() -> new CustomException(ErrorCode.ERROR_DEVICE_NOT_FOUND));
         log.info("[Sensing] 기기코드: {}, NFC: {}, 무게: {}g",
-                request.deviceCode(), request.nfcTag(), request.weight());
+                request.deviceCode(), request.tagUid(), request.weight());
         // TODO: 하드웨어 소유자(User)를 식별하여 복약 기록(MedicationLog) 저장 로직 구현 필요
         // User owner = hardware.getUser();
     }

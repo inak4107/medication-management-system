@@ -5,49 +5,47 @@ import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import pilltapserver.domain.medicationschedule.MedicationSchedule;
-import pilltapserver.domain.tagmapping.TagMapping;
 import pilltapserver.domain.user.User;
-
+import pilltapserver.domain.hardware.Hardware;
+import pilltapserver.domain.tagmapping.TagMapping;
+import pilltapserver.domain.medicationschedule.MedicationSchedule;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 
 @Entity
 @Table(name = "medication_logs")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class MedicationLog {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "log_id")
-    private Integer logId;
+    private Long logId;
 
-    //스티커(약)과 매핑
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "mapping_id", nullable = false)
-    private TagMapping tagMapping;
-
-    //스케줄과의 매핑
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "schedule_id", nullable = false)
-    private MedicationSchedule schedule;
-
-    //유저와의 매핑
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    @Column(name = "scheduled_time", nullable = false)
-    private LocalTime scheduledTime;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "hardware_id", nullable = false)
+    private Hardware hardware;
 
-    @Column(name = "take_time", nullable = false)
-    private LocalDateTime takeTime = LocalDateTime.now();
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "mapping_id", nullable = false)
+    private TagMapping tagMapping;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "schedule_id", nullable = false)
+    private MedicationSchedule medicationSchedule;
+
+    @Column(name = "scheduled_time")
+    private LocalDateTime scheduledTime;
 
     @Column(name = "measured_weight", nullable = false, precision = 5, scale = 2)
     private BigDecimal measuredWeight;
 
     @Column(name = "status", nullable = false, columnDefinition = "int2")
-    private Integer status; // 0(FAIL), 1(AUTO_SUCCESS), 2(MANUAL_CONFIRMED)
+    private Integer status;
 
     @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt = LocalDateTime.now();
