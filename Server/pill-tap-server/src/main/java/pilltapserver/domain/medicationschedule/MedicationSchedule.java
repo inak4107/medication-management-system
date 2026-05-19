@@ -19,7 +19,6 @@ import java.util.List;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @SQLRestriction("deleted_at IS NULL")
-@SQLDelete(sql = "UPDATE medication_schedule SET deleted_at = NOW(), updated_at = NOW() WHERE schedule_id = ?")
 public class MedicationSchedule {
 
     @Id
@@ -59,11 +58,20 @@ public class MedicationSchedule {
     }
 
     /**
-     * 스케줄 이름 수정
+     * 스케줄 수정
      * @param scheduleName 사용자가 변경할 새로운 스케줄 이름
      */
-    public void updateScheduleName(String scheduleName) {
+    public void updateSchedule(String scheduleName, Integer mappingId) {
         this.scheduleName = scheduleName;
+        this.mappingId = mappingId;
+        this.updatedAt = LocalDateTime.now();
+    }
+
+    /**
+     * 데이터 삭제
+     */
+    public void deactivate() {
+        this.deletedAt = LocalDateTime.now();
         this.updatedAt = LocalDateTime.now();
     }
     /**

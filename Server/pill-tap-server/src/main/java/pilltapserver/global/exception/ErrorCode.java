@@ -26,12 +26,14 @@ public enum ErrorCode {
     //하드웨어 관련 에러
     ERROR_DEVICE_CODE_EMPTY(400,"기기 식별 코드가 누락되었습니다."),
     ERROR_DEVICE_ALREADY_REGISTERED(409,"이미 등록된 기기입니다."),
-    ERROR_UNAUTHORIZED_ACCESS(403,"해당 기기에 대한 접근 권한이 없습니다."),
     ERROR_DEVICE_NOT_FOUND(404,"존재하지 않거나 삭제된 기기 정보입니다."),
     // 스케줄 관련 에러
     ERROR_SCHEDULE_NAME_EMPTY(400,"스케줄 이름을 입력하세요,"),
     ERROR_SCHEDULE_TIME__EMPTY(400,"시간을 등록하세요."),
     ERROR_TAG_IN_USE(409,"사용중인 기기 입니다. 기존 스케줄 삭제 후 진행해주세요."),
+    ERROR_SCHEDULE_NOT_FOUND(404,"존재하지 않거나 삭제된 스케줄입니다."),
+    // 권한 없음
+    ERROR_UNAUTHORIZED_ACCESS(403,"해당 요청에 대한 접근 권한이 없습니다."),
     //서버 에러
     INTERNAL_SERVER_ERROR(500, "서버 내 오류가 발생했습니다.");
 

@@ -35,12 +35,13 @@ public class TagMapping {
     public void changeUser(Integer userId) {
         this.userId = userId;
     }
-
     public void restore() {
         this.deletedAt = null;
     }
-
-    public void updateLastTaggedAt() {
-        this.last_tagged_at = LocalDateTime.now();
+    /**
+     * 데이터 삭제
+     */
+    public void deactivate() {
+        this.deletedAt = LocalDateTime.now();
     }
 }
